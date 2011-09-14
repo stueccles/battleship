@@ -21,12 +21,12 @@ class BasicPlayerTest < MiniTest::Unit::TestCase
                     ]
                     
       @one_remaining_state = [
-                      [:unknown, :miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss],
                       [:miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss],
                       [:miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss],
+                      [:miss, :miss, :miss, :hit, :miss, :miss, :miss, :miss, :miss, :miss],
                       [:miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss],
-                      [:miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss],
-                      [:miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss],
+                      [:miss, :unknown, :miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss],
+                      [:miss, :miss, :miss, :miss, :miss, :miss, :miss, :hit, :miss, :miss],
                       [:miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss],
                       [:miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss],
                       [:miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss, :miss],
@@ -39,9 +39,17 @@ class BasicPlayerTest < MiniTest::Unit::TestCase
     assert board.valid?
   end
   
+  def test_should_take_a_shot
+    @player.new_game
+    shot = @player.take_turn(@basic_state,[5, 4, 3, 3, 2])
+    assert !shot.nil?
+    assert !shot[0].nil?
+    assert !shot[1].nil?
+  end
+  
   def test_should_take_a_valid_shot
     @player.new_game
-    shot = @player.take_turn(@mock_state,[5, 4, 3, 3, 2])
+    shot = @player.take_turn(@basic_state,[5, 4, 3, 3, 2])
     assert (shot[0] >= 0)
     assert (shot[0] < 10)
     assert (shot[1] >= 0)
@@ -51,7 +59,7 @@ class BasicPlayerTest < MiniTest::Unit::TestCase
   def test_should_not_repeat_shots
     @player.new_game
     shot = @player.take_turn(@one_remaining_state,[5, 4, 3, 3, 2])
-    assert (shot == [0,0]), "used an already missed state"
+    assert (shot == [1,4]), "used an already missed state with #{shot.inspect}"
   end
   
 end    

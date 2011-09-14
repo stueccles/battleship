@@ -15,7 +15,7 @@ renderer.render(game)
 until game.winner
   game.tick
   renderer.render(game)
-  sleep 1
+  #sleep 1
 end
 
 puts "#{game.winner.name} won!"

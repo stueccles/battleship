@@ -24,13 +24,19 @@ class BasicPlayer
     @last_shot = shot
     @last_state = state
     @last_ships_remaining = ships_remaining
-    shot
+    return shot
   end
   
   private
     def hunt_for_ships(state, ships_remaining)
-      [rand(10), rand(10)]
-      
+      possible_shots = []
+      state.each_with_index do |row, y|
+         row.each_with_index do |cell, x|
+           possible_shots << [x,y] if cell == :unknown
+         end
+      end
+           
+      return possible_shots.shuffle[0]
     end
     
     def target_ship
