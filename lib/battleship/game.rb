@@ -24,7 +24,7 @@ module Battleship
     end
 
     def names
-      @state.map{ |player, _, __| player.name }
+      @state.map{ |player, _, __| player.name }.reverse
     end
 
     def report
